@@ -105,16 +105,10 @@ While this is a bit technical, it's worth clarifying some terminology...
 * **Database CLI** - A tool offered by most DBMSs that allows us to query the
   database from the command line. For PostgreSQL, we'll use `psql`. For Mongo, we used `mongo`.
   
-## Install Postgres
-
-[Install Postgres Doc](getting_postgres.md) 
 
 ## Exploring Postgres (15 minutes / 1:05)
 
 Note: We are learning this to be able to read it. We'll look stuff up when we want to write it!
-
-But there have been times GA grads need to use it (4 months later)!
-![SQL](./images/screenshot_kibble.png)
 
 Start by spotlight searching (`command-space`) for Postgres and launching `Postgres.app`. Once you see the elephant in your Mac menu bar, you'll know Postgres is running.
 
@@ -264,7 +258,7 @@ Instead of typing this into psql, we're going to do so by saving the schema to a
 
 > 10 minutes exercise. 5 minutes review.
 
-1. `cd` into the `library_sql` folder in student labs
+1. `cd` into the [Relational Databases SQL Lab](https://github.kdc.capitalone.com/CODA/relational-databases-sql-lab/blob/master/README.md) folder
 2. Open it in atom.
 3. Follow along with the directions below, running commands in the terminal.
 
