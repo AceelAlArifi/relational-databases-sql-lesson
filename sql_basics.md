@@ -15,6 +15,14 @@
 - Seed a PostgreSQL database with a saved SQL file
 - Execute basic SQL commands to execute CRUD actions in a database
 
+## Install Postgres
+Postgresql may take . minute to install. So let's go ahead and start.
+
+- [Postgres.app](http://postgresapp.com/)
+- [Postico - a GUI interface for Postgresql](https://eggerapps.at/postico/)
+
+[Install Postgres Debugging Doc](getting_postgres.md) 
+
 ## Framing
 
 ![SQL](./images/sql-nosql-comparison-dataconomy.png)
