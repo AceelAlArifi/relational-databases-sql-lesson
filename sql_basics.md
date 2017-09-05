@@ -268,7 +268,7 @@ Instead of typing this into psql, we're going to do so by saving the schema to a
 
 > 10 minutes exercise. 5 minutes review.
 
-1. `cd` into the [Relational Databases SQL Lab](https://github.kdc.capitalone.com/CODA/relational-databases-sql-lab) folder
+1. Fork, clone and `cd` into the [Relational Databases SQL Lab](https://github.kdc.capitalone.com/CODA/relational-databases-sql-lab) folder
 2. Open it in atom.
 3. Follow along with the directions below, running commands in the terminal.
 4. It's easiest to keep a separate tab open in Terminal just to connect with `psql`.
