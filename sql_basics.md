@@ -19,7 +19,7 @@
 Postgresql may take a minute to install. So let's go ahead and start the download.
 
 - [Postgres.app](http://postgresapp.com/)
-- [Postico - a GUI interface for Postgresql](https://eggerapps.at/postico/)
+- [PGAdmin - a GUI interface for Postgresql](https://www.pgadmin.org/download/)
 
 [Install Postgres Debugging Doc](getting_postgres.md) 
 
