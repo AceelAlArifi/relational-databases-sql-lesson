@@ -74,7 +74,7 @@ The most popular type of database is a **relational** database. How do they work
 **Communicate via SQL (Structured Query Language)**
 
 - SQL is a database language used specifically for relational databases.
-- This is in contrast to non-relational databases (we've used Mongo) which is essentially Javascript
+- This is in contrast to non-relational databases (e.g. - Mongo) which is essentially Javascript
  
 **Can relate data between tables**
 
@@ -111,7 +111,9 @@ While this is a bit technical, it's worth clarifying some terminology...
 * **Database Management System** - The software that lets a user interact (query)
   the data in a database. Examples are PostgreSQL, MySQL, MongoDB, etc.
 * **Database CLI** - A tool offered by most DBMSs that allows us to query the
-  database from the command line. For PostgreSQL, we'll use `psql`. For Mongo, we used `mongo`.
+  database from the command line. For PostgreSQL, we'll use `psql`.
+  
+> Postgres.app is a database engine that you'll install on your machine. It has it's own server that will run on `5492`. Diagram how Node/Express communicates with Postgres. 
   
 
 ## Exploring Postgres (15 minutes / 1:05)
@@ -123,7 +125,7 @@ Start by spotlight searching (`command-space`) for Postgres and launching `Postg
 ### psql commands
 
 We'll use `psql` as our primary means of interacting with our databases. Later
-on we'll use ruby or server-side JS programs to do so in our programs.
+on we'll use server-side JS programs (e.g. - Sequelize) to do so in our programs.
 
 Here's a quick demo. Following along is optional.
 
@@ -260,15 +262,16 @@ Constraints act as limits on the data that can go in a column.
 
 Next we're going to build a schema for a database in a sample application. It can change later on if we need to add / remove tables or columns, but we'll start with something simple.
 
-Instead of typing this into psql, we're going to do so by saving the schema to a `.sql` file and run it, just like we have with `.js` and `.rb` files.
+Instead of typing this into psql, we're going to do so by saving the schema to a `.sql` file and run it, just like we have with `.js` files.
 
 ## You Do: Building Our DB (15 minutes / 1:40)
 
 > 10 minutes exercise. 5 minutes review.
 
-1. `cd` into the [Relational Databases SQL Lab](https://github.kdc.capitalone.com/CODA/relational-databases-sql-lab/blob/master/README.md) folder
+1. `cd` into the [Relational Databases SQL Lab](https://github.kdc.capitalone.com/CODA/relational-databases-sql-lab) folder
 2. Open it in atom.
 3. Follow along with the directions below, running commands in the terminal.
+4. It's easiest to keep a separate tab open in Terminal just to connect with `psql`.
 
 #### Creating our Database
 
