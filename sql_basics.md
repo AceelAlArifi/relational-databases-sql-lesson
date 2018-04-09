@@ -15,13 +15,17 @@
 - Seed a PostgreSQL database with a saved SQL file
 - Execute basic SQL commands to execute CRUD actions in a database
 
-## Install Postgres
-Postgresql may take a minute to install. So let's go ahead and start the download.
+## What are Databases? - Intro (20 mins)
 
-- [Postgres.app](http://postgresapp.com/)
-- [PGAdmin - a GUI interface for Postgresql](https://www.pgadmin.org/download/)
+A database is a place where information gets stored in a hard drive - or distributed across multiple hard drives - on a computer somewhere. Much like we've been creating and storing data in arrays or objects, a database represents a collection of individual pieces of data stored in a **highly structured** and **searchable way**; they represent a model of reality.
 
-[Install Postgres Debugging Doc](getting_postgres.md) 
+Inside of a database, we do basic actions like create, read, update, and destroy data – hey look, CRUD!
+
+In modern web development, there are different categories of databases – SQL, NoSQL. We're focusing on SQL because it typically get's paired with Node and Express.
+
+SQL stands for Structured Query Language, and it's a language used to manage and get information from what are considered "relational" databases.
+
+NoSQL means... No Structured Query Language.
 
 ## Framing
 
@@ -39,7 +43,11 @@ What are some differences between a SQL (e.g.- Postgres) and a No-SQL database (
 
 <br>
 
-### SQL vs NoSQL comparison
+## SQL vs NoSQL comparison
+
+### The SQL vs NoSQL Holy War
+
+NoSQL is more flexible, while SQL is more structured in it's approach to creating a database.  SQL databases are focused on relationships between different entity tables, while a NoSQL database gives you speed and availability by allowing you to store data in any document on the fly.
 
 | SQL | NoSQL |
 | --- | ----- |
@@ -50,9 +58,56 @@ What are some differences between a SQL (e.g.- Postgres) and a No-SQL database (
 | reliability, [ACID](https://en.wikipedia.org/wiki/ACID) compliance | no promises :) |
 | **Examples** Postgres, MySQL, SQLite | **Examples** MongoDB, Cassandra, Couchbase |
 
-
 > ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure data is reliably stored.
 
+# ACID
+
+ACID defines a set of rules for database transactions. These rules are built-in to our database technologies, so we don't need to worry too much about actively employing them ourselves. But knowing what they are helps provide a solid grounding for a what a database does.
+
+What does ACID stand for:
+
+**A - Atomicity**
+* All or nothing, if one part fails, the entire transaction fails
+
+**C - Consistency**
+* Any valid transaction can only result in creating an equally valid state as defined by the various rules built by the programmer, constraints, cascades, etc. Transactions need to follow the rules inherent in the database and the validations on that data.
+
+**I - Isolation**
+* Concurrent transactions will not result invalid data. Transaction results look as though Concurrent transactions were run serially (one after another).
+
+**D - Durability**
+* The durability property ensures that once a transaction has been committed, it will remain so, even in the event of power loss, crashes, or errors. Once a change has been made, nothing but another transaction will change it.
+
+## Let's look at a ```book``` entity:
+
+### MongoDB
+
+```
+{
+  ISBN: 9780992461225,
+  title: "JavaScript: Novice to Ninja",
+  author: "Darren Jones",
+  year: 2014,
+  format: "ebook",
+  price: 29.00,
+  description: "Learn JavaScript from scratch!",
+  rating: "5/5",
+  review: [
+    { name: "A Reader", text: "The best JavaScript book I've ever read." },
+    { name: "JS Expert", text: "Recommended to novice and expert developers alike." }
+  ]
+}
+```
+
+### PostgreSQL
+
+| ISBN          | title                       | author       | format | price |
+|---------------|-----------------------------|--------------|--------|-------|
+| 9780992461225 | JavaScript: Novice to Ninja | Darren Jones | ebook  | 29.00 |
+
+<br>
+
+In PostgreSQL, reviews would be a seperate entity with a ```book_id``` column. A review belongs to a book, a book has many reviews.
 
 ## What's a Relational Database? (10 minutes / 0:50)
 
@@ -74,7 +129,7 @@ The most popular type of database is a **relational** database. How do they work
 **Communicate via SQL (Structured Query Language)**
 
 - SQL is a database language used specifically for relational databases.
-- This is in contrast to non-relational databases (e.g. - Mongo) which is essentially Javascript
+- This is in contrast to non-relational databases (we've used Mongo) which is essentially Javascript
  
 **Can relate data between tables**
 
@@ -111,21 +166,25 @@ While this is a bit technical, it's worth clarifying some terminology...
 * **Database Management System** - The software that lets a user interact (query)
   the data in a database. Examples are PostgreSQL, MySQL, MongoDB, etc.
 * **Database CLI** - A tool offered by most DBMSs that allows us to query the
-  database from the command line. For PostgreSQL, we'll use `psql`.
+  database from the command line. For PostgreSQL, we'll use `psql`. For Mongo, we used `mongo`.
   
-> Postgres.app is a database engine that you'll install on your machine. It has it's own server that will run on `5492`. Diagram how Node/Express communicates with Postgres. 
-  
+## Install Postgres
+
+[Install Postgres Doc](getting_postgres.md) 
 
 ## Exploring Postgres (15 minutes / 1:05)
 
 Note: We are learning this to be able to read it. We'll look stuff up when we want to write it!
+
+But there have been times GA grads need to use it (4 months later)!
+![SQL](./images/screenshot_kibble.png)
 
 Start by spotlight searching (`command-space`) for Postgres and launching `Postgres.app`. Once you see the elephant in your Mac menu bar, you'll know Postgres is running.
 
 ### psql commands
 
 We'll use `psql` as our primary means of interacting with our databases. Later
-on we'll use server-side JS programs (e.g. - Sequelize) to do so in our programs.
+on we'll use ruby or server-side JS programs to do so in our programs.
 
 Here's a quick demo. Following along is optional.
 
@@ -147,12 +206,13 @@ CREATE DATABASE demodb;
 
 \d -- Lists all tables
 
-CREATE TABLE pokemon (
+CREATE TABLE pokemon ( 
   number INT UNIQUE PRIMARY KEY,
   name VARCHAR NOT NULL,
   type VARCHAR NOT NULL,
   description VARCHAR
 );
+-- based on the schema
 
 \d
 
@@ -262,16 +322,15 @@ Constraints act as limits on the data that can go in a column.
 
 Next we're going to build a schema for a database in a sample application. It can change later on if we need to add / remove tables or columns, but we'll start with something simple.
 
-Instead of typing this into psql, we're going to do so by saving the schema to a `.sql` file and run it, just like we have with `.js` files.
+Instead of typing this into psql, we're going to do so by saving the schema to a `.sql` file and run it, just like we have with `.js` and `.rb` files.
 
 ## You Do: Building Our DB (15 minutes / 1:40)
 
 > 10 minutes exercise. 5 minutes review.
 
-1. Fork, clone and `cd` into the [Relational Databases SQL Lab](https://github.kdc.capitalone.com/CODA/relational-databases-sql-lab) folder
+1. `cd` into the `library_sql` folder in student labs
 2. Open it in atom.
 3. Follow along with the directions below, running commands in the terminal.
-4. It's easiest to keep a separate tab open in Terminal just to connect with `psql`.
 
 #### Creating our Database
 
@@ -353,13 +412,13 @@ The most common SQL commands correspond to these 4 actions...
 ### Verb Equivalence
 
 **[CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)**
-_(create, read, update and delete)_, SQL, HTTP, and Rails Controller action.
+_(create, read, update and delete)_, SQL, HTTP, and Express Controller action.
 
 | CRUD   | SQL    | HTTP   | action     |
 |:-------|:-------|:-------|:-----------|
 | Create | INSERT | POST   | create     |
 | Read   | SELECT | GET    | index/show |
-| Update | UPDATE | PATCH  | update     |
+| Update | UPDATE | PATCH/PUT  | update     |
 | Delete | DELETE | DELETE | destroy    |
 
 First, enter into the library DB (if you aren't already)...
