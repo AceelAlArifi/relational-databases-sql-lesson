@@ -247,7 +247,6 @@ INSERT INTO pokemon (number, name, type) VALUES (025, 'Pikachu', 'Electric');
 -- READ
 SELECT * FROM pokemon;
 
-
 -- UPDATE
 UPDATE pokemon SET type = 'Fire' WHERE number = 5;
 -- UPDATE pokemon SET name=...
@@ -268,13 +267,31 @@ In short...
 
 - Backslash commands (e.g. `\l` ) are commands to navigate psql. These are psql-specific.
 - Everything else is SQL. The SQL is what actually interacts with the database.
+- SELECT- retrieve some information from a particular table
+  - `SELECT * FROM <table name>;` 
+    - retrieve all data from any table
+    - * - all the information in all of the table's columns back
+- WHERE- used for searching tables
+    - `SELECT <column name> FROM <table name> WHERE <condition>;`
+    - `<condition>= <column> <operator> <value>`
+    - `<operator>`
+        - equality/equals sign (==)(case sensitive); 
+        - inequality/not equal to(!=)
+        - all operators read left to right
+        - relational operators- used to compare values
+             - less-than (<)
+             - less-than-or-equal-to (<=)
+             - greater-than (>)
+             -greater-than-or-equal-to (>=)
+    - `<value>`
+        - if the column is of type text or date, you must use quotes around the value
 
 ### SQL Syntax
 
-- All statements end in a semicolon.
+- **Always ens statements with a semicolon**
 - Whitespace doesn't matter.
-- Uppercasing! (Lowercase works, but the convention is Uppercase)
-- Always use single quotes when typing out string values.
+- Uppercasing! (Lowercase works, but the convention is Uppercase as it makes SQL more readable)
+- **Always** use single quotes when typing out string values.
 - [Ye olde style guide.](http://leshazlewood.com/software-engineering/sql-style-guide/)
 
 ## BREAK (10 minutes / 1:15)
@@ -384,6 +401,7 @@ First, enter into the library DB...
 
 ```bash
 $ psql
+$ \l
 $ \c library
 ```
 
@@ -425,20 +443,14 @@ First, enter into the library DB (if you aren't already)...
 
 ```bash
 $ psql
+$ \l
 $ \c library
-```
-
-### INSERT
-
-`INSERT` adds a row to a table...
-
-```sql
-INSERT INTO authors(name, nationality, birth_year) VALUES ('Adam Bray', 'United States of America', 1985);
 ```
 
 ### SELECT
 
-`SELECT` returns rows from a table...
+- `SELECT` returns rows from a table...
+
 
 ```sql
 -- select all columns from all rows
@@ -452,9 +464,31 @@ SELECT name, birth_year FROM authors;
 SELECT * FROM authors WHERE name = 'James Baldwin';
 ```
 
+### INSERT
+
+- `INSERT` adds a row to a table...
+- `INSERT INTO <table> VALUES (<value 1>, <value 2>, <value 3>);`
+   - after the table name, you can add another set of parens with the column names in them
+      - then order will follow what you put in the parens
+   - order is very important
+      - data must be inserted in the same order the schema describes the columns in the table
+   - you can add multiple rows by using a comma in between the data/parens
+
+
+```sql
+INSERT INTO authors(name, nationality, birth_year) VALUES ('Adam Bray', 'United States of America', 1985);
+```
+
 ### UPDATE
 
-`UPDATE` updates values for one or more rows...
+- `UPDATE` updates values for one or more rows...
+- `UPDATE <table> SET <column>=<value>;` 
+    - will update all columns
+- `UPDATE <table> SET <column>=<value> WHERE <condition>;`
+    - will update column based on this condition
+- `UPDATE <table> SET <column>=<value> WHERE <condition> AND <condition>;`
+    - set change multiple values, use a comma, instead of AND
+
 
 ```sql
 UPDATE authors SET name = 'Adam B.', birth_year = 1986 WHERE name = 'Adam Bray';
@@ -462,7 +496,14 @@ UPDATE authors SET name = 'Adam B.', birth_year = 1986 WHERE name = 'Adam Bray';
 
 ### DELETE
 
-`DELETE` removes rows from a table...
+- `DELETE` removes rows from a table...
+- `DELETE FROM <table>;`
+    - will delete all rows
+    - you can't undo this;
+    - without a backup of your data, you will lose all of this info
+- `DELETE FROM <table> where <condition>;`
+    - will delete all rows based on this condition
+
 
 ```sql
 DELETE FROM authors WHERE name = 'Adam B.';
