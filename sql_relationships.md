@@ -126,6 +126,10 @@ SELECT id FROM authors where name = 'J.K. Rowling';
 SELECT * FROM books where author_id = 2;
 
 SELECT * FROM books JOIN authors ON books.author_id = authors.id;
+- primary key- authors.id
+- foreign key- books.author_id
+- be specific- name the databaseName.dataTable
+
 SELECT * FROM books JOIN authors ON books.author_id = authors.id WHERE authors.nationality = 'United States of America';
 ```
 
