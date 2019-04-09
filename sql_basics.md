@@ -15,50 +15,55 @@
 - Seed a PostgreSQL database with a saved SQL file
 - Execute basic SQL commands to execute CRUD actions in a database
 
-## What are Databases? - Intro (20 mins)
-
-A database is a place where information gets stored in a hard drive - or distributed across multiple hard drives - on a computer somewhere. Much like we've been creating and storing data in arrays or objects, a database represents a collection of individual pieces of data stored in a **highly structured** and **searchable way**; they represent a model of reality.
-
-Inside of a database, we do basic actions like create, read, update, and destroy data – hey look, CRUD!
-
-In modern web development, there are different categories of databases – SQL, NoSQL. We're focusing on SQL because it typically get's paired with Node and Express.
-
-SQL stands for Structured Query Language, and it's a language used to manage and get information from what are considered "relational" databases.
-
-NoSQL means... No Structured Query Language.
-
-## Framing
-
-![SQL](./images/sql-nosql-comparison-dataconomy.png)
-
-*via [SQL vs. NoSQL- What you need to know](http://dataconomy.com/sql-vs-nosql-need-know/)*
-
 <br>
 
-&#x1F535; **YOU DO**
+## Introduction
 
-Take 5 minutes and read through this article: https://www.upwork.com/hiring/data/sql-vs-nosql-databases-whats-the-difference/
+Why are we talking about SQL?
 
-What are some differences between a SQL (e.g.- Postgres) and a No-SQL database (e.g.- Mongo)?
+Most applications need a [data store](https://en.wikipedia.org/wiki/Data_store)
+to persist important information. A relational database is the most common
+datastore for a web application. SQL is the language of relational databases.
 
-<br>
+At it's simplest, a relational database is a mechanism to store and retrieve
+data in a tabular form.
 
-## SQL vs NoSQL comparison
+Spreadsheets are a good analogy. Individual sheets as tables and the whole
+spreadsheet as a database. See **[this
+link](https://docs.google.com/spreadsheets/d/19rHAb5JW3m25gCxh_WhFqJmYC59gLd0Gt5TZtu7al8E/edit#gid=0)**
+for an example.
 
-### The SQL vs NoSQL Holy War
+> Why is this important?
 
-NoSQL is more flexible, while SQL is more structured in it's approach to creating a database.  SQL databases are focused on relationships between different entity tables, while a NoSQL database gives you speed and availability by allowing you to store data in any document on the fly.
+Database tables are a good place to store key/value pairs, as long as the values
+are simple types (e.g. string, number). The keys are the column names and the
+values are stored in each row. That maps well to simple JSON objects. A group of
+rows from one table maps well to a JSON array.
 
-| SQL | NoSQL |
-| --- | ----- |
-| Since late 1970s | Since late 2000s |
-| Relational model | other data storage models |
-| Tables (rows and columns) | Documents (js objects) |
-| not easy to scale | easier to scale |
-| reliability, [ACID](https://en.wikipedia.org/wiki/ACID) compliance | no promises :) |
-| **Examples** Postgres, MySQL, SQLite | **Examples** MongoDB, Cassandra, Couchbase |
+> What about more complicated data?
 
-> ACID (Atomicity, Consistency, Isolation, Durability) is a set of properties that ensure data is reliably stored.
+Database tables can reference other tables which allows arbitrary nesting of
+groups of simple types. This is something we'll be looking at more closely
+later.
+
+## Relational Database Management System ([RDBMS](http://en.wikipedia.org/wiki/Relational_database_management_system))
+
+A **[Database
+Server](http://upload.wikimedia.org/wikipedia/commons/5/57/RDBMS_structure.png)**
+is a set of processes and files that manage the databases that store the tables.
+Sticking with our previous analogy a database server would map to Google Sheets.
+
+### Verb Equivalence
+
+**[CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)**
+_(create, read, update and delete)_, SQL, HTTP, and Rails Controller action.
+
+| CRUD   | SQL    | HTTP   | action     |
+|:-------|:-------|:-------|:-----------|
+| Create | INSERT | POST   | create     |
+| Read   | SELECT | GET    | index/show |
+| Update | UPDATE | PATCH  | update     |
+| Delete | DELETE | DELETE | destroy    |
 
 # ACID
 
@@ -78,32 +83,6 @@ What does ACID stand for:
 **D - Durability**
 * The durability property ensures that once a transaction has been committed, it will remain so, even in the event of power loss, crashes, or errors. Once a change has been made, nothing but another transaction will change it.
 
-## Let's look at a ```book``` entity:
-
-### MongoDB
-
-```
-{
-  ISBN: 9780992461225,
-  title: "JavaScript: Novice to Ninja",
-  author: "Darren Jones",
-  year: 2014,
-  format: "ebook",
-  price: 29.00,
-  description: "Learn JavaScript from scratch!",
-  rating: "5/5",
-  review: [
-    { name: "A Reader", text: "The best JavaScript book I've ever read." },
-    { name: "JS Expert", text: "Recommended to novice and expert developers alike." }
-  ]
-}
-```
-
-### PostgreSQL
-
-| ISBN          | title                       | author       | format | price |
-|---------------|-----------------------------|--------------|--------|-------|
-| 9780992461225 | JavaScript: Novice to Ninja | Darren Jones | ebook  | 29.00 |
 
 <br>
 
@@ -139,11 +118,25 @@ The most popular type of database is a **relational** database. How do they work
 - The key is often represented using an `id`, which is a unique identifier for each entry in a table. We refer to this as a `primary_key`.
 - For example, to relate a book to an author we'd add a `foreign_key` field of `author_id` to our books table. The `author_id` would be the `primary_key` (or `id`) of the author the book belongs to.
 
+## Let's look at a `book` row in a table:
+
+
+| ISBN          | title                       | author       | format | price |
+|---------------|-----------------------------|--------------|--------|-------|
+| 9780992461225 | JavaScript: Novice to Ninja | Darren Jones | ebook  | 29.00 |
+
+<br>
+
+
+
 ![](https://i.imgur.com/stPn9lA.png)
 
 *via Rails Guides*
 
-### Types of Relational Databases
+<br>
+
+
+## Types of Relational Databases
 
 There are lots of relational databases, such as PostgreSQL, MySQL, and SQLite.
 They are all similar in that they use SQL, but they do have different features.
@@ -156,7 +149,7 @@ features MySQL lacks, such as true full-text search and handling geo-data.
 If you're interested in pros and cons, check out this [article comparing MySQL,
 Postgres, and SQLite](https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems).
 
-### Terminology
+## Terminology
 
 While this is a bit technical, it's worth clarifying some terminology...
 
@@ -172,12 +165,77 @@ While this is a bit technical, it's worth clarifying some terminology...
 
 [Install Postgres Doc](getting_postgres.md) 
 
+<details>
+    <summary>WDI3 Install Info</summary>
+
+## Installation
+
+### Mac
+
+Install postgres via homebrew
+```
+brew install postgres
+```
+Start postgres
+```
+brew services start postgres
+```
+wait a few seconds to allow the service to start
+```
+sleep 3s
+```
+create database with current system username `whoami`
+```  
+createdb
+```
+
+### Ubuntu
+
+install postgres and build dependency
+```
+sudo apt-get install -y postgresql libpq-dev
+```
+create user in postgres with name of current  system user
+```
+sudo -u postgres createuser "$(whoami)" -s
+```
+create database with name of current system 
+user
+```  
+sudo -u postgres createdb "$(whoami)"
+```
+start postgres server
+```
+sudo service postgresql start
+```
+
+### Windows
+
+```
+psql -c "UPDATE pg_database SET datistemplate=FALSE WHERE datname='template1';" &> /dev/null
+psql -c "DROP DATABASE template1;" &> /dev/null
+psql -c "CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = 'UNICODE';" &> /dev/null
+psql -c "UPDATE pg_database SET datistemplate=TRUE WHERE datname='template1';" &> /dev/null
+psql -c "\c template1;" &> /dev/null
+psql -c "VACUUM FREEZE;" &> /dev/null
+```
+
+### Everyone
+Resource bashrc
+```
+source ~/.bashrc
+```
+
+install postgres gem for rails
+```
+gem install pg
+```
+
+</details>
+
 ## Exploring Postgres (15 minutes / 1:05)
 
 Note: We are learning this to be able to read it. We'll look stuff up when we want to write it!
-
-But there have been times GA grads need to use it (4 months later)!
-![SQL](./images/screenshot_kibble.png)
 
 Start by spotlight searching (`command-space`) for Postgres and launching `Postgres.app`. Once you see the elephant in your Mac menu bar, you'll know Postgres is running.
 
