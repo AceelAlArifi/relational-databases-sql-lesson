@@ -118,14 +118,7 @@ The most popular type of database is a **relational** database. How do they work
 - The key is often represented using an `id`, which is a unique identifier for each entry in a table. We refer to this as a `primary_key`.
 - For example, to relate a book to an author we'd add a `foreign_key` field of `author_id` to our books table. The `author_id` would be the `primary_key` (or `id`) of the author the book belongs to.
 
-## Let's look at a `book` row in a table:
-
-
-| ISBN          | title                       | author       | format | price |
-|---------------|-----------------------------|--------------|--------|-------|
-| 9780992461225 | JavaScript: Novice to Ninja | Darren Jones | ebook  | 29.00 |
-
-<br>
+## Associations
 
 
 
